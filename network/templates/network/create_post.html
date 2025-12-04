@@ -1,0 +1,14 @@
+{% extends "network/layout.html" %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+    <h2 class="head_create_post">Create Post</h2>
+    <form class="create_post_form">
+    <label for="content_of_post">Content</label>
+        <textarea type='textarea' class="content_of_post"></textarea>
+    <input type="submit" value="Post" class="post_btn">
+    </form>
+
+
+{% endblock %}

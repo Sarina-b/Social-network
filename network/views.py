@@ -1,8 +1,12 @@
+import json
+
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User
 
@@ -61,3 +65,14 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+@csrf_exempt
+@login_required
+def create_post(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data)
+        return render(request, "network/create_post.html")
+    else:
+        return render(request, 'network/create_post.html')
