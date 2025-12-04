@@ -3,12 +3,12 @@ import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import User
+from .models import User, Post
 
 
 def index(request):
@@ -72,7 +72,15 @@ def register(request):
 def create_post(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        print(data)
-        return render(request, "network/create_post.html")
+        content = data.get('content', '')
+        if content == '':
+            return JsonResponse({
+                "error": "Content cannot be empty."
+            }, status=400)
+        new_post = Post(username_of_poster=request.user, content=content)
+        new_post.save()
+        return JsonResponse({
+            "success": "Post created successfully."
+        }, status=200)
     else:
         return render(request, 'network/create_post.html')

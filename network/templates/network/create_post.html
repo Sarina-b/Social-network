@@ -5,10 +5,13 @@
 {% block body %}
     <h2 class="head_create_post">Create Post</h2>
     <form class="create_post_form">
-    <label for="content_of_post">Content</label>
+        <label for="content_of_post">Content</label>
         <textarea type='textarea' class="content_of_post"></textarea>
-    <input type="submit" value="Post" class="post_btn">
+        <input type="submit" value="Post" class="post_btn">
     </form>
+    <div class="messages">
+        <p class="error-message"></p>
+    </div>
 
 
 {% endblock %}

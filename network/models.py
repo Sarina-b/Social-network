@@ -1,5 +1,3 @@
-import time
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -16,7 +14,7 @@ class User(AbstractUser):
 class Post(models.Model):
     username_of_poster = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
-    date_posted = models.DateTimeField(default=time.time())
+    date_posted = models.DateTimeField(auto_now_add=True)
     like = models.PositiveIntegerField(default=0)
 
     def __str__(self):
