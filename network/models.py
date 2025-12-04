@@ -1,5 +1,4 @@
 import time
-from time import timezone
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
