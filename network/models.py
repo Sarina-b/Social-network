@@ -23,8 +23,8 @@ class Post(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    number_of_followers = models.PositiveIntegerField(default=0)
-    number_of_following = models.PositiveIntegerField(default=0)
+    following = models.ManyToManyField(User, related_name='following', blank=True)
+    followers = models.ManyToManyField(User, related_name='followers', blank=True)
 
     def __str__(self):
-        return f"{self.user} , {self.number_of_followers} , {self.number_of_following}"
+        return f"{self.user} , {self.following} , {self.followers}"

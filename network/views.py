@@ -8,12 +8,21 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import User, Post
+from .models import User, Post, Profile
 
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-date_posted')
     return render(request, 'network/index.html', {'posts': posts})
+
+
+def profile(request):
+    posts = Post.objects.filter(username_of_poster=request.user).order_by('-date_posted')
+    count_following = request.user.profile.following.count()
+    count_followers = request.user.profile.followers.count()
+    return render(request, 'network/index.html',
+                  {'posts': posts, 'count_following': count_following,
+                   'count_followers': count_followers})
 
 
 def login_view(request):
@@ -85,4 +94,3 @@ def create_post(request):
         }, status=200)
     else:
         return render(request, 'network/create_post.html')
-

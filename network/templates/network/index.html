@@ -1,8 +1,22 @@
 {% extends "network/layout.html" %}
 
-{% block title %}All posts{% endblock %}
+
+{% block title %}
+    {% if request.GET.from == 'profile' %}
+        Profile<{{ request.user }}>
+    {% elif request.GET.from == 'index' %}
+        All Posts
+    {% endif %}
+{% endblock %}
+
 
 {% block body %}
+    {% if request.GET.from == 'profile' %}
+        <div class="user_info">
+            <button class="count_followers">Followers : {{ count_followers }}</button>
+            <button class="count_following">Following : {{ count_following }}</button>
+        </div>
+    {% endif %}
     {% for post in posts %}
         <div class="each_post">
             <div class="post_user">{{ post.username_of_poster }}</div>
