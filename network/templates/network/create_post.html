@@ -1,6 +1,10 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block title %}New Post{% endblock %}
+{% block script %}
+    <script src="{% static 'network/inbox.js' %}"></script>
+{%  endblock %}
 
 {% block body %}
     <h2 class="head_create_post">Create Post</h2>

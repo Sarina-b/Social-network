@@ -12,7 +12,8 @@ from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all()
+    return render(request, 'network/index.html', {'posts': posts})
 
 
 def login_view(request):
@@ -84,3 +85,4 @@ def create_post(request):
         }, status=200)
     else:
         return render(request, 'network/create_post.html')
+

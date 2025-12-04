@@ -31,3 +31,4 @@ function create_new_post(event) {
 
     document.querySelector('.content_of_post').value = '';
 }
+

@@ -1,5 +1,14 @@
 {% extends "network/layout.html" %}
 
+{% block title %}All posts{% endblock %}
+
 {% block body %}
-    TODO
+    {% for post in posts %}
+        <div class="each_post">
+            <div class="post_user">{{ post.username_of_poster }}</div>
+            <div class="post_content">{{ post.content }}</div>
+            <div class="date_posted">{{ post.date_posted }}</div>
+            <div class="likes">{{ post.like }}</div>
+        </div>
+    {% endfor %}
 {% endblock %}
