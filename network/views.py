@@ -16,13 +16,21 @@ def index(request):
     return render(request, 'network/index.html', {'posts': posts})
 
 
-def profile(request):
-    posts = Post.objects.filter(username_of_poster=request.user).order_by('-date_posted')
-    count_following = request.user.profile.following.count()
-    count_followers = request.user.profile.followers.count()
+def profile(request, username):
+    clicked_user = User.objects.get(username=username)
+    posts = Post.objects.filter(username_of_poster=clicked_user).order_by('-date_posted')
+    count_following = clicked_user.profile.following.count()
+    count_followers = clicked_user.followers.count()
+    activate_follow_or_unfollow = request.user != clicked_user
+    in_following = request.user.profile.following.filter(id=clicked_user.id).exists()
+    if in_following:
+        in_following = True
+    else:
+        in_following = False
     return render(request, 'network/index.html',
                   {'posts': posts, 'count_following': count_following,
-                   'count_followers': count_followers})
+                   'count_followers': count_followers, 'activate_follow_or_unfollow': activate_follow_or_unfollow
+                      , 'in_following': in_following})
 
 
 def login_view(request):

@@ -16,10 +16,19 @@
             <button class="count_followers">Followers : {{ count_followers }}</button>
             <button class="count_following">Following : {{ count_following }}</button>
         </div>
+        {% if activate_follow_or_unfollow %}
+            {% if in_following %}
+                <button>Unfollow</button>
+            {% else %}
+                <button>Follow</button>
+            {% endif %}
+
+        {% endif %}
     {% endif %}
     {% for post in posts %}
         <div class="each_post">
-            <div class="post_user">{{ post.username_of_poster }}</div>
+            <a class="post_user"
+               href="{% url 'profile' post.username_of_poster.username %}">{{ post.username_of_poster }}</a>
             <div class="post_content">{{ post.content }}</div>
             <div class="date_posted">{{ post.date_posted }}</div>
             <div class="likes">{{ post.like }}</div>
