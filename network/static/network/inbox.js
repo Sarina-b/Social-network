@@ -48,11 +48,17 @@ function follow_button() {
             follow: true,
             clicked_user_id: document.querySelector('.follow_btn').dataset.user_id
         })
-    }).catch(err => console.error(err));
-    const follow_btn = document.querySelector('.follow_btn');
-    follow_btn.textContent = 'Unfollow';
-    follow_btn.classList.remove('follow_btn');
-    follow_btn.classList.add('unfollow_btn');
+    }).then(response => response.json())
+        .then(result => {
+            const follow_btn = document.querySelector('.follow_btn');
+            follow_btn.textContent = 'Unfollow';
+            follow_btn.classList.remove('follow_btn');
+            follow_btn.classList.add('unfollow_btn');
+            document.querySelector('.count_followers').textContent = `Followers : ${result.clicked_user_followers}` ;
+            document.querySelector('.count_following').textContent =  `Followings : ${result.clicked_user_following}` ;
+
+        })
+        .catch(err => console.error(err));
 
 }
 
@@ -63,11 +69,18 @@ function unfollow_button() {
             follow: false,
             clicked_user_id: document.querySelector('.unfollow_btn').dataset.user_id
         })
-    }).catch(err => console.error(err));
-    const follow_btn = document.querySelector('.unfollow_btn');
-    follow_btn.textContent = 'Follow';
-    follow_btn.classList.remove('unfollow_btn');
-    follow_btn.classList.add('follow_btn');
+    }).then(response => response.json())
+        .then(result => {
+            const follow_btn = document.querySelector('.unfollow_btn');
+            follow_btn.textContent = 'Follow';
+            follow_btn.classList.remove('unfollow_btn');
+            follow_btn.classList.add('follow_btn');
+            document.querySelector('.count_followers').textContent = `Followers : ${result.clicked_user_followers}` ;
+            document.querySelector('.count_following').textContent =  `Followings : ${result.clicked_user_following}` ;
+
+        })
+        .catch(err => console.error(err));
+
 
 }
 

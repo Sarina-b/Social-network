@@ -18,30 +18,28 @@ def index(request):
 
 @csrf_exempt
 def user_info(request):
-    # user_profile = Profile.objects.get(user=request.user)
-    # user_followings = user_profile.following.all()
-    # user_followers = request.followers.all()
     if request.method == 'PUT':
         data = json.loads(request.body)
         clicked_user_id = data['clicked_user_id']
         clicked_user = User.objects.get(pk=clicked_user_id)
+        clicked_user_profile = Profile.objects.get(user=clicked_user)
         if data['follow']:
             Profile.objects.get(user=request.user).following.add(clicked_user)
         else:
             Profile.objects.get(user=request.user).following.remove(clicked_user)
 
-    # return JsonResponse({
-    #     'user_profile': user_profile,
-    #     'user_followings': user_followings,
-    #     'user_followers': user_followers
-    # })
+        clicked_user_following = clicked_user_profile.following.count()
+        clicked_user_followers = Profile.objects.filter(following=clicked_user).count()
+
+        return JsonResponse({'clicked_user_following': clicked_user_following,
+                             'clicked_user_followers': clicked_user_followers})
 
 
 def profile(request, username):
     clicked_user = User.objects.get(username=username)
     posts = Post.objects.filter(username_of_poster=clicked_user).order_by('-date_posted')
     count_following = clicked_user.profile.following.count()
-    count_followers = clicked_user.followers.count()
+    count_followers = Profile.objects.filter(following=clicked_user).count()
     activate_follow_or_unfollow = request.user != clicked_user
     in_following = request.user.profile.following.filter(id=clicked_user.id).exists()
     if in_following:
