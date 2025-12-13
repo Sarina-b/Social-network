@@ -16,6 +16,17 @@ def index(request):
     return render(request, 'network/index.html', {'posts': posts})
 
 
+@login_required
+def following_posts(request):
+    following_users = Profile.objects.get(user=request.user).following.all()
+    print(following_users)
+    posts = []
+    for user in following_users:
+        posts.append(Post(username_of_poster=user))
+        print(posts)
+    return render(request, 'network/index.html', {'posts': posts})
+
+
 @csrf_exempt
 def user_info(request):
     if request.method == 'PUT':
