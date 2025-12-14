@@ -1,0 +1,9 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="not_login">
+        <div>You are not logged in</div>
+        <a class="link" href="{% url 'login' %}">Log in here</a>
+    </div>
+{% endblock %}

@@ -19,15 +19,16 @@ def index(request):
 @login_required
 def following_posts(request):
     following_users = Profile.objects.get(user=request.user).following.all()
-    print(following_users)
-    posts = []
-    for user in following_users:
-        posts.append(Post(username_of_poster=user))
-        print(posts)
+    posts = Post.objects.filter(username_of_poster__in=following_users).order_by('-date_posted')
     return render(request, 'network/index.html', {'posts': posts})
 
 
+def not_login(request):
+    return render(request, 'network/not_login.html')
+
+
 @csrf_exempt
+@login_required
 def user_info(request):
     if request.method == 'PUT':
         data = json.loads(request.body)

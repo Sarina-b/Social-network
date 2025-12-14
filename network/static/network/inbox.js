@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // document.querySelector('.create_post_form').addEventListener('submit', create_new_post);
+    const create_post_form = document.querySelector('.create_post_form');
+    if(create_post_form){
+        create_post_form.addEventListener('submit',create_new_post);
+    }
     const follow_btn = document.querySelector('.follow_btn');
     const unfollow_btn = document.querySelector('.unfollow_btn');
     if (follow_btn) {
