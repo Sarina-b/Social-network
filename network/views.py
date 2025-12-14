@@ -7,13 +7,18 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
+
 
 from .models import User, Post, Profile
 
 
 def index(request):
     posts = Post.objects.all().order_by('-date_posted')
-    return render(request, 'network/index.html', {'posts': posts})
+    paginate_posts = Paginator(posts, 5)
+    page = request.GET.get('page')
+    page_obj = paginate_posts.get_page(page)
+    return render(request, 'network/index.html', {'posts': page_obj})
 
 
 @login_required

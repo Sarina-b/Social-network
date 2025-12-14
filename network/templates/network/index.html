@@ -11,7 +11,7 @@
 {% endblock %}
 {% block script %}
     <script src="{% static 'network/inbox.js' %}"></script>
-{%  endblock %}
+{% endblock %}
 
 
 {% block body %}
@@ -38,4 +38,15 @@
             <div class="likes">{{ post.like }}</div>
         </div>
     {% endfor %}
+    <div class="page_pagination">
+        {% if posts.has_previous %}
+            <a class="previous_page_number" href="?page={{ posts.previous_page_number }}">Previous</a>
+        {% endif %}
+         {% if posts.has_next %}
+            <a class="next_page_number" href="?page={{ posts.next_page_number }}">Next</a>
+        {% endif %}
+
+    </div>
+
+
 {% endblock %}
