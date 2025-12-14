@@ -9,23 +9,26 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 
-
 from .models import User, Post, Profile
+
+
+def pagination(request, posts):
+    paginate_posts = Paginator(posts, 5)
+    page = request.GET.get('page')
+    page_obj = paginate_posts.get_page(page)
+    return page_obj
 
 
 def index(request):
     posts = Post.objects.all().order_by('-date_posted')
-    paginate_posts = Paginator(posts, 5)
-    page = request.GET.get('page')
-    page_obj = paginate_posts.get_page(page)
-    return render(request, 'network/index.html', {'posts': page_obj})
+    return render(request, 'network/index.html', {'posts': pagination(request,posts)})
 
 
 @login_required
 def following_posts(request):
     following_users = Profile.objects.get(user=request.user).following.all()
     posts = Post.objects.filter(username_of_poster__in=following_users).order_by('-date_posted')
-    return render(request, 'network/index.html', {'posts': posts})
+    return render(request, 'network/index.html', {'posts': pagination(request,posts)})
 
 
 def not_login(request):
@@ -64,7 +67,7 @@ def profile(request, username):
     else:
         in_following = False
     return render(request, 'network/index.html',
-                  {'posts': posts, 'count_following': count_following,
+                  {'posts': pagination(request, posts), 'count_following': count_following,
                    'count_followers': count_followers, 'activate_follow_or_unfollow': activate_follow_or_unfollow
                       , 'in_following': in_following, 'is_profile_page': True, 'clicked_user': clicked_user})
 
